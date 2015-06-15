@@ -37,6 +37,12 @@ var posts = [
   }
 ];
 
+var authors = [{
+  id: 1,
+  name: "George",
+  posts: [1, 2]
+}];
+
 module.exports = function(app) {
   var express = require('express');
   var postsRouter = express.Router();
@@ -44,11 +50,7 @@ module.exports = function(app) {
   postsRouter.get('/', function(req, res) {
     res.send({
       "posts": posts,
-      "authors" : [{
-        id: 1,
-        name: "George",
-        posts: [1, 2]
-      }]
+      "authors" : authors
     });
   });
 
@@ -58,21 +60,18 @@ module.exports = function(app) {
 
   postsRouter.get('/:id', function(req, res) {
     res.send({
-      'posts': {
-        id: req.params.id
-      }
+      "post": posts.find(function(post) {
+        return post.id == req.params.id
+      }),
+      "authors": authors
     });
   });
 
   postsRouter.put('/:id', function(req, res) {
     res.send({
-      // 'posts': {
-      //   id: req.params.id
-      // }
-      "post": posts.find(function(post) {
-        return post.id == req.params.id
-      }),
-      "authors": authors
+      'posts': {
+        id: req.params.id
+      }
     });
   });
 
